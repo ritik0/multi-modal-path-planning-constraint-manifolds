@@ -6,9 +6,9 @@ The planner combines supported sliding and free-space transport to generate **sl
 
 ## 4.1 kg Payload Demonstration
 
-[![4.1 kg payload experiment](hardware_results/4.1kg/traj_all.png)](hardware_results/4.1kg/overlay_video.mp4)
+[![4.1 kg payload experiment](assets/readme/demo_4p1.gif)](hardware_results/4.1kg/overlay_video.mp4)
 
-**Click the image above to open the 4.1 kg hardware demonstration video.**
+**Click the animation above to open the full 4.1 kg hardware demonstration video.**
 
 Additional experiment videos:
 
