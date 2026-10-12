@@ -1,0 +1,8 @@
+numpy
+scipy
+pin
+ompl
+matplotlib
+meshcat
+pyvista
+trimesh

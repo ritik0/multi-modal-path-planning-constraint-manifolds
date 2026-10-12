@@ -63,15 +63,17 @@ Hardware experiment data for the **2.1 kg** and **4.1 kg** payload cases are inc
 
 Each directory contains measured trajectory data, trajectory plots, visualisations and experiment videos.
 
-## Dependencies
+## Installation
 
-The planner is implemented in Python and uses libraries including:
+The planner is written in Python and uses Pinocchio for robot kinematics and dynamics and OMPL for constrained motion planning.
 
-- NumPy
-- Pinocchio
-- OMPL
+Linux or WSL2 is recommended, primarily because OMPL's Python bindings are more straightforward to use in this environment.
 
-Some visualisation and analysis scripts require additional packages. Detailed installation and reproduction instructions will be added separately.
+Clone the repository:
+
+```bash
+git clone https://github.com/ritik0/multi-modal-path-planning-constraint-manifolds.git
+cd multi-modal-path-planning-constraint-manifolds
 
 ## Thesis
 
