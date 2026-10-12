@@ -54,3 +54,30 @@ The repository contains the planner implementation, constraint handling, OMPL-ba
 ¦
 +-- docs/
 
+Main Components
+- run_panda.py — main planning entry point
+- transport.py — multi-modal transport sequence generation
+- ompl_planner.py — constrained motion planning with OMPL
+- constraints.py — constraint-manifold and mode definitions
+- payload_model.py — payload modelling and configuration
+- robot_model.py — robot kinematics and dynamics interface
+- collision.py — environment and collision geometry
+- transfer_foliation.py — refinement of the free-carry manifold
+- experiments/ — experimental scripts and processed thesis data
+Hardware Results
+Hardware experiments for 2.1 kg and 4.1 kg payloads are included in hardware_results/.
+Each directory contains measured trajectory data, plots, animations and experiment videos.
+Dependencies
+The planner is implemented in Python and uses libraries including:
+- NumPy
+- Pinocchio
+- OMPL
+Some visualisation and analysis scripts require additional packages.
+Thesis
+Multi-Modal Path Planning on Constraint Manifolds for Robotic Manipulation
+Master's thesis project on multi-modal constrained motion planning for robotic manipulation.
+Third-Party Assets
+Robot mesh assets originating from franka_description are included where required by the URDF models.
+The corresponding upstream licence and notice are preserved under:
+third_party/franka_description/
+
