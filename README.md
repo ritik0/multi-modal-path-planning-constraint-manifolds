@@ -29,6 +29,13 @@ Torque feasibility is evaluated during planning. When unsupported carrying becom
 
 The repository contains the planner implementation, constraint handling, OMPL-based constrained planning, payload modelling, foliation-based free-carry refinement, experimental scripts, trajectory data and hardware-result visualisations.
 
+## Key Results
+
+- **Real-robot validation:** complete slide-lift-slide trajectories were executed with **2.1 kg** and **4.1 kg** payloads.
+- **Foliation refinement:** planning success increased from **38% to 87%** for 2.1 kg, **27% to 83%** for 3.1 kg, and **37% to 92%** for 4.1 kg.
+- **Constrained-space comparison:** both OMPL Projected and Atlas spaces solved all evaluated queries; Atlas reduced mean planning time from approximately **455 s to 14 s** in the tested setup.
+- **Torque-aware multimodality:** for heavy payloads, the planner can exploit surface support before lift-off and return to supported motion after transfer when unsupported carrying is infeasible.
+
 ## Repository Structure
 
 - `payload_planner/` - main planning and analysis implementation
