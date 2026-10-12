@@ -1,0 +1,58 @@
+<!-- ===== PAYLOAD (bricks face FRONT: wings on +/- y, joint yaw stays 0) ===== -->
+  <!-- The 90-degree orientation is baked into the GEOMETRY/inertia here, NOT into
+       the joint, so the controlled "payload" frame stays aligned with the hand and
+       the planner keeps the EE orientation unchanged.
+       Regenerated from payload_model.py (wings along y). -->
+  <link name="payload">
+    <!-- UNBALANCED payload: 65 mm extrusion + TWO bricks on the -y side (~2 kg) and
+         ONE brick on the +y side (~1 kg). Total ~3.1 kg. COM shifts ~14 mm toward -y. -->
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 -0.01432 -0.02121"/>
+      <mass value="3.101"/>
+      <inertia ixx="0.006701" ixy="0.0" ixz="0.0"
+               iyy="0.003136" iyz="-0.000738" izz="0.008594"/>
+    </inertial>
+    <!-- centre extrusion 40x40x65 mm (square in xy, unchanged) -->
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 -0.0325"/>
+      <geometry><box size="0.040 0.040 0.065"/></geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.0325"/>
+      <geometry><box size="0.040 0.040 0.065"/></geometry>
+    </collision>
+    <!-- brick L1 ~0.994 kg (-y side, on table) -->
+    <visual>
+      <origin rpy="0 0 0" xyz="0 -0.045 -0.0125"/>
+      <geometry><box size="0.100 0.050 0.025"/></geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.045 -0.0125"/>
+      <geometry><box size="0.100 0.050 0.025"/></geometry>
+    </collision>
+    <!-- brick L2 ~1.0 kg (-y side, stacked) -->
+    <visual>
+      <origin rpy="0 0 0" xyz="0 -0.045 -0.0375"/>
+      <geometry><box size="0.100 0.050 0.025"/></geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.045 -0.0375"/>
+      <geometry><box size="0.100 0.050 0.025"/></geometry>
+    </collision>
+    <!-- brick R1 ~1.007 kg (+y side, single) -->
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0.045 -0.0125"/>
+      <geometry><box size="0.100 0.050 0.025"/></geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0.045 -0.0125"/>
+      <geometry><box size="0.100 0.050 0.025"/></geometry>
+    </collision>
+  </link>
+
+  <!-- JOINT UNCHANGED: rpy stays 0 0 0 so the EE orientation is preserved. -->
+  <joint name="payload_joint" type="fixed">
+    <parent link="fer_hand_tcp"/>
+    <child link="payload"/>
+    <origin rpy="0 0 0" xyz="0 0 0.065"/>
+  </joint>

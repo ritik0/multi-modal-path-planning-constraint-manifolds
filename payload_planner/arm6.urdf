@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot name="arm6">
+  <link name="base_link">
+    <inertial><origin xyz="0 0 0.05"/><mass value="3.0"/>
+      <inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>
+
+  <link name="link1"><inertial><origin xyz="0 0 0.05"/><mass value="2.5"/>
+    <inertia ixx="0.01" iyy="0.01" izz="0.005" ixy="0" ixz="0" iyz="0"/></inertial></link>
+  <joint name="j1" type="revolute"><parent link="base_link"/><child link="link1"/>
+    <origin xyz="0 0 0.10"/><axis xyz="0 0 1"/>
+    <limit lower="-2.9" upper="2.9" effort="100" velocity="2.0"/></joint>
+
+  <link name="link2"><inertial><origin xyz="0 0 0.15"/><mass value="2.5"/>
+    <inertia ixx="0.02" iyy="0.02" izz="0.005" ixy="0" ixz="0" iyz="0"/></inertial></link>
+  <joint name="j2" type="revolute"><parent link="link1"/><child link="link2"/>
+    <origin xyz="0 0 0.10"/><axis xyz="0 1 0"/>
+    <limit lower="-2.6" upper="2.6" effort="100" velocity="2.0"/></joint>
+
+  <link name="link3"><inertial><origin xyz="0 0 0.15"/><mass value="2.0"/>
+    <inertia ixx="0.02" iyy="0.02" izz="0.004" ixy="0" ixz="0" iyz="0"/></inertial></link>
+  <joint name="j3" type="revolute"><parent link="link2"/><child link="link3"/>
+    <origin xyz="0 0 0.30"/><axis xyz="0 1 0"/>
+    <limit lower="-2.6" upper="2.6" effort="100" velocity="2.0"/></joint>
+
+  <link name="link4"><inertial><origin xyz="0 0 0.03"/><mass value="1.2"/>
+    <inertia ixx="0.004" iyy="0.004" izz="0.002" ixy="0" ixz="0" iyz="0"/></inertial></link>
+  <joint name="j4" type="revolute"><parent link="link3"/><child link="link4"/>
+    <origin xyz="0 0 0.30"/><axis xyz="0 0 1"/>
+    <limit lower="-2.9" upper="2.9" effort="40" velocity="2.5"/></joint>
+
+  <link name="link5"><inertial><origin xyz="0 0 0.03"/><mass value="1.0"/>
+    <inertia ixx="0.003" iyy="0.003" izz="0.002" ixy="0" ixz="0" iyz="0"/></inertial></link>
+  <joint name="j5" type="revolute"><parent link="link4"/><child link="link5"/>
+    <origin xyz="0 0 0.08"/><axis xyz="0 1 0"/>
+    <limit lower="-2.6" upper="2.6" effort="40" velocity="2.5"/></joint>
+
+  <link name="link6"><inertial><origin xyz="0 0 0.02"/><mass value="0.6"/>
+    <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/></inertial></link>
+  <joint name="j6" type="revolute"><parent link="link5"/><child link="link6"/>
+    <origin xyz="0 0 0.08"/><axis xyz="0 0 1"/>
+    <limit lower="-2.9" upper="2.9" effort="40" velocity="2.5"/></joint>
+
+  <!-- the payload: a 4 kg link rigidly attached, CoM offset 0.05 beyond the
+       grasp point so that CARRY ORIENTATION changes the gravity torque -->
+  <link name="payload"><inertial><origin xyz="0 0 0.05"/><mass value="4.0"/>
+    <inertia ixx="0.004" iyy="0.004" izz="0.004" ixy="0" ixz="0" iyz="0"/></inertial></link>
+  <joint name="jpay" type="fixed"><parent link="link6"/><child link="payload"/>
+    <origin xyz="0 0 0.10"/></joint>
+</robot>
