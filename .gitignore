@@ -23,3 +23,5 @@ venv/
 # Windows
 Thumbs.db
 Desktop.ini
+
+payload_planner/_generated_payload_urdfs/
