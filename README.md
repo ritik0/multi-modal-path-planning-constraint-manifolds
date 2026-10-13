@@ -117,13 +117,127 @@ Each directory contains measured trajectory data, trajectory plots, visualisatio
 
 The planner is written in Python and uses Pinocchio for robot kinematics and dynamics and OMPL for constrained motion planning.
 
-Linux or WSL2 is recommended, primarily because OMPL's Python bindings are more straightforward to use in this environment.
+Linux or WSL2 is recommended.
 
 Clone the repository:
 
 ```bash
 git clone https://github.com/ritik0/multi-modal-path-planning-constraint-manifolds.git
 cd multi-modal-path-planning-constraint-manifolds
+```
+
+Create and activate a virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Install the dependencies:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Core dependencies include:
+
+- **NumPy** - numerical computation
+- **SciPy** - constrained contact/wrench optimisation
+- **Pinocchio** - robot kinematics and dynamics
+- **OMPL** - constrained sampling-based motion planning
+- **Matplotlib** - experiment plots
+- **Meshcat** - interactive visualisation
+- **PyVista / Trimesh** - mesh and trajectory visualisation
+
+### Tested Environment
+
+The core planner was successfully tested from a fresh WSL/Linux virtual environment with:
+
+- Pinocchio 4.1.0
+- OMPL 2.0.1
+- NumPy 2.5.4
+- SciPy 1.18.1
+
+Using the installation procedure above, the planner successfully generated a complete supported-slide → free-flight → supported-slide trajectory.
+
+### Optional PyVista Renderer Dependency
+
+`animate_pyvista.py` additionally uses a local package named `robot_tools` for the mentor-style robot renderer. This helper package is not required by the planner itself and is not currently distributed with this repository.
+
+The included hardware videos and animations can be viewed without this optional renderer.
+
+## Running the Planner
+
+The main entry point is:
+
+```bash
+python -B payload_planner/run_panda.py
+```
+
+Three payload configurations are defined:
+
+```text
+2p1    2.1 kg payload
+3p1    3.1 kg payload
+4p1    4.1 kg payload
+```
+
+Select a payload with the `PAYLOAD_CASE` environment variable:
+
+```bash
+PAYLOAD_CASE=4p1 python -B payload_planner/run_panda.py
+```
+
+The planner supports both OMPL Projected and Atlas constrained state spaces:
+
+```bash
+PAYLOAD_CONSTRAINED_SPACE=projected python -B payload_planner/run_panda.py
+```
+
+or:
+
+```bash
+PAYLOAD_CONSTRAINED_SPACE=atlas python -B payload_planner/run_panda.py
+```
+
+Useful experiment parameters include:
+
+- `PAYLOAD_CASE` - payload configuration (`2p1`, `3p1`, `4p1`)
+- `PAYLOAD_TORQUE_DERATE` - scaling applied to the joint torque limits
+- `PAYLOAD_CONSTRAINED_SPACE` - `projected` or `atlas`
+- `PAYLOAD_PLANNER_NAME` - OMPL planner used for individual segments
+- `PAYLOAD_SOLVE_TIME` - planning-time budget
+- `PAYLOAD_BEST_OF_N` - number of candidate solutions evaluated
+- `PAYLOAD_LOCK_SLIDE_YAW` - enables or disables slide-yaw locking
+- `PAYLOAD_FOLIATION` - enables the optional free-carry foliation search
+
+Example:
+
+```bash
+PAYLOAD_CASE=4p1 \
+PAYLOAD_TORQUE_DERATE=0.60 \
+PAYLOAD_CONSTRAINED_SPACE=atlas \
+PAYLOAD_SOLVE_TIME=60 \
+python -B payload_planner/run_panda.py
+```
+
+## Experiments
+
+The scripts and processed data used for the thesis evaluation are available under:
+
+```text
+payload_planner/experiments/
+```
+
+This includes data and scripts for the feasibility envelope, foliation analysis, torque-utilisation studies and related experimental plots.
+
+Real-robot trajectory logs, plots and videos are stored under:
+
+```text
+hardware_results/2.1kg/
+hardware_results/4.1kg/
+```
 
 ## Thesis
 
@@ -138,3 +252,9 @@ Robot mesh assets originating from `franka_description` are included where requi
 The corresponding upstream licence and notice are preserved in:
 
 `third_party/franka_description/`
+
+## Licence
+
+Unless otherwise noted, the original source code in this repository is released under the **MIT License**. See `LICENSE`.
+
+Third-party assets remain subject to their respective licences and notices.
