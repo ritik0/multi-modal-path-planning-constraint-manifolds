@@ -29,6 +29,56 @@ Torque feasibility is evaluated during planning. When unsupported carrying becom
 
 The repository contains the planner implementation, constraint handling, OMPL-based constrained planning, payload modelling, foliation-based free-carry refinement, experimental scripts, trajectory data and hardware-result visualisations.
 
+## Planning Pipeline
+
+The planner formulates supported motion and free-space transport as distinct constraint modes. Lift-off and set-down configurations are sampled from intersections between these modes, after which constrained motion planning is performed for each segment.
+
+```mermaid
+flowchart TD
+    A["Start & Goal Placements"] --> B["Scene + Payload Model"]
+
+    B --> C["Constraint Modes"]
+
+    C --> D["Supported Mode A<br/>surface + contact feasibility"]
+    C --> E["Free-Flight Mode<br/>torque + collision feasibility"]
+    C --> F["Supported Mode B<br/>surface + contact feasibility"]
+
+    D --> G["Sample Lift-Off Configurations<br/>Supported A ∩ Free Flight"]
+    E --> G
+
+    E --> H["Sample Set-Down Configurations<br/>Free Flight ∩ Supported B"]
+    F --> H
+
+    G --> I["Rank Candidate<br/>Transition Pairs"]
+    H --> I
+
+    I --> J["Plan Slide A<br/>Constrained OMPL"]
+
+    J --> K{"Foliation Enabled?"}
+
+    K -- "No" --> L["Plan Free Flight<br/>Constrained OMPL"]
+
+    K -- "Yes" --> M["Search Transfer-Manifold Leaves<br/>Coarse Search + Local Refinement"]
+    M --> N["Select Leaf<br/>Torque Utilisation + Path Length"]
+    N --> L
+
+    L --> O["Plan Slide B<br/>Constrained OMPL"]
+
+    O --> P["Evaluate Feasible<br/>Slide–Lift–Slide Candidates"]
+
+    P --> Q["Select Best Trajectory"]
+
+    Q --> R["Resample + Export"]
+
+    R --> S["Hardware Execution<br/>and Experimental Evaluation"]
+```
+
+The three motion segments of the resulting trajectory are:
+
+**supported slide → free-space transport → supported slide**
+
+The optional foliation stage searches a family of free-carry manifolds rather than fixing a single transfer manifold in advance.
+
 ## Key Results
 
 - **Real-robot validation:** complete slide-lift-slide trajectories were executed with **2.1 kg** and **4.1 kg** payloads.
